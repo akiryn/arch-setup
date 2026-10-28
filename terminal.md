@@ -73,7 +73,7 @@ sudo pacman -S zsh-syntax-highlighting zsh-autosuggestions zsh-completions
 - zsh-autosuggestions根据历史记录显示灰色建议
 - zsh-completions按Tab时显示这里有哪些合法选项
 2. 配置
-参考[.zshrc](配置文件/zshrc)
+参考[.zshrc](配置文件/.zshrc)
 
 
 ## starship提示符美化
@@ -128,3 +128,44 @@ window-rule {
 
 # 可选配置
 ## Oh My Zsh
+通过该框架可以快捷方便的管理zsh的补充功能
+官网<https://ohmyz.sh/>
+收集<https://github.com/unixorn/awesome-zsh-plugins>
+1. 安装
+```zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+安装后，就已经有一些默认效果，如命令行提示符的主题变化。安装后会覆盖.zshrc
+2. 修改主题
+oh-my-zsh 提供了许多内置主题，可查看 [themes](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes) 获取一系列的主题
+```zsh
+vim ~/.zshrc
+# 将ZSH_THEME修改为
+ZSH_THEME="agnoster" # 默认为 robbyrussell
+```
+3. 内置插件
+```zsh
+vim ~/.zshrc
+# 修改
+plugins=(git z sudo copypath copyfile copybuffer)
+```
+4. 第三方插件
+```zsh
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/MichaelAquilina/zsh-you-should-use.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/you-should-use
+# 修改
+plugins=(git z zsh-syntax-highlighting zsh-autosuggestions you-should-use)
+```
+也可以安装主题插件替代内置的主题
+```zsh
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+# 将ZSH_THEME修改为
+ZSH_THEME="powerlevel10k/powerlevel10k"
+```
+为了确认 NerdFont 字体安装成功，正式开始配置前，要先提出几个问题，识别图片是否如描述说的那样。我们回答后才能进入到主题的自定义，然后自己喜好选择。完成后会生成`$HOME/.p10k.zsh`，想要更细的配置可以自行修改该文件
+```zsh
+# 重新配置，会重新生成$HOME/.p10k.zsh
+p10k configure 
+```
+参考配置：[.p10k.zsh](配置文件/.p10k.zsh)
