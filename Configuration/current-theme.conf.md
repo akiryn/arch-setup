@@ -1,4 +1,3 @@
-```conf
 # vim:ft=kitty
 
   
@@ -156,4 +155,3 @@ color14 #94E2D5
 color7 #BAC2DE
 
 color15 #A6ADC8
-```

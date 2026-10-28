@@ -1,4 +1,4 @@
-```toml
+
 # Based on Downloads/.p10k.zsh: single-line Rainbow / angled Powerline.
 "$schema" = 'https://starship.rs/config-schema.json'
 add_newline = false
@@ -88,4 +88,3 @@ when = '! git rev-parse --git-dir >/dev/null 2>&1'
 command = "printf ''"
 shell = ['sh']
 format = '[$output](fg:4)'
-```

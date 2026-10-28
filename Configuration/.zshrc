@@ -1,4 +1,4 @@
-```
+
 # ── 历史记录 ──────────────────────────────────
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=50000
@@ -35,4 +35,3 @@ eval "$(starship init zsh)"
 
 # ── 语法高亮：保持最后加载 ─────────────────────
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-```

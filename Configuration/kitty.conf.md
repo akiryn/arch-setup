@@ -1,4 +1,4 @@
-```conf
+
 # 默认启用zsh
 shell zsh
 # 导入颜色文件
@@ -24,4 +24,3 @@ active_tab_font_style bold-italic
 inactive_tab_font_style normal
 # kitty的布局切换
 enabled_layouts tall,horizontal
-```
