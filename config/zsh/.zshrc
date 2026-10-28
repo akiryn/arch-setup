@@ -1,4 +1,3 @@
-
 # ── 历史记录 ──────────────────────────────────
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=50000

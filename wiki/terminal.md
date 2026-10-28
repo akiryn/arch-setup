@@ -15,8 +15,8 @@ vim ~/.config/kitty/kitty.conf
 vim ~/.config/kitty/kitty.conf
 # 添加以下内容
 ```
-给出参考：[kitty.conf](Configuration/kitty.conf)
-详细配置说明见：[KittyConfiguration](KittyConfiguration.md)
+我的配置：[kitty.conf](../config/kitty/kitty.conf)
+kitty配置及使用：[kittyconfig](kittyconfig.md)
 3. 美化
 这里以已经加入预设的Catppuccin-Mocha为例，通过kitten themes工具配置，选择后立即生效
 ```zsh
@@ -30,8 +30,31 @@ kitten themes
 include current-theme.conf
 # END_KITTY_THEME
 ```
-这里给出[current-theme.conf](Configuration/current-theme.conf)参考，可以直接将其复制到~/.config/kitty/下然后在kitty.conf引入
-关于kitten themes使用见<https://sw.kovidgoyal.net/kitty/kittens_intro/?utm_source=chatgpt.com>或
+这里给出[current-theme.conf](../config/kitty/current-theme.conf)参考，可以直接将其复制到~/.config/kitty/下然后在kitty.conf引入
+关于kitten themes使用见[官网说明](https://sw.kovidgoyal.net/kitty/kittens_intro/?utm_source=chatgpt.com)
+
+## starship提示符美化
+<https://starship.rs/>
+1. 安装 Nerd 字体和 Starship
+```zsh
+sudo pacman -S ttf-jetbrains-mono-nerd starship
+```
+2. 编辑所使用shell的配置文件使其使用Starship
+```zsh
+vim ~/.zshrc
+#添加
+# Starship prompt (managed by pacman).
+eval "$(starship init zsh)"
+```
+3. 美化提示符
+```zsh
+vim ~/.config/starship.toml
+#添加
+```
+我的配置：[starship](../config/starship/starship.toml)
+也可以用官方提供的一些预设：<https://starship.rs/presets/>。
+4. 重启终端
+
 
 ## Shell配置
 **本文主要讲述zsh相关配置**
@@ -73,31 +96,10 @@ sudo pacman -S zsh-syntax-highlighting zsh-autosuggestions zsh-completions
 - zsh-syntax-highlightin高亮，
 - zsh-autosuggestions根据历史记录显示灰色建议
 - zsh-completions按Tab时显示这里有哪些合法选项
-2. 配置
-参考[.zshrc](Configuration/.zshrc)
+2. 配置文件
+我的配置：[.zshrc](../config/zsh/.zshrc)
 
 
-## starship提示符美化
-<https://starship.rs/>
-1. 安装 Nerd 字体和 Starship
-```zsh
-sudo pacman -S ttf-jetbrains-mono-nerd starship
-```
-2. 编辑所使用shell的配置文件使其使用Starship
-```zsh
-vim ~/.zshrc
-#添加
-# Starship prompt (managed by pacman).
-eval "$(starship init zsh)"
-```
-3. 美化提示符
-```zsh
-vim ~/.config/starship.toml
-#添加
-```
-[starship](Configuration/starship.toml)
-也可以用官方提供的一些预设：<https://starship.rs/presets/>。
-4. 重启终端
 
 
 
@@ -129,7 +131,7 @@ window-rule {
 
 # 可选配置
 ## Oh My Zsh框架
-通过该框架可以快捷方便的管理zsh的补充功能
+通过该框架可以快捷方便的管理zsh的补充功能。如果要配置该框架无须安装前述的starship和zsh独立插件
 官网<https://ohmyz.sh/>
 收集<https://github.com/unixorn/awesome-zsh-plugins>
 1. 安装
@@ -169,4 +171,4 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # 重新配置，会重新生成$HOME/.p10k.zsh
 p10k configure 
 ```
-参考配置：[.p10k.zsh](Configuration/.p10k.zsh)
+我的配置：[.p10k.zsh](../config/zsh/.p10k.zsh)
