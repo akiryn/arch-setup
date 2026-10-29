@@ -5,54 +5,69 @@
 ## 终端模拟器
 ### kitty
 1. 安装
+
 ```zsh
 sudo pacman -S kitty
 mkdir -p ~/.config/kitty/
 vim ~/.config/kitty/kitty.conf
 ```
 2. 配置
+
 ```zsh
 vim ~/.config/kitty/kitty.conf
 # 添加以下内容
 ```
-我的配置：[kitty.conf](../config/kitty/kitty.conf)
-kitty配置及使用：[kittyconfig](kittyconfig.md)
+
+我的配置：[kitty.conf](../config/kitty/kitty.conf)，kitty配置及使用：[kittyconfig](kittyconfig.md)
+
 3. 美化
 这里以已经加入预设的Catppuccin-Mocha为例，通过kitten themes工具配置，选择后立即生效
+
 ```zsh
 # 终端执行
 kitten themes
 ```
+
 美化配置原理：将颜色相关配置写入一个文件，kitty.conf中通过include引入。
+
 ```zsh
 # BEGIN_KITTY_THEME
 # Catppuccin-Mocha
 include current-theme.conf
 # END_KITTY_THEME
 ```
-这里给出[current-theme.conf](../config/kitty/current-theme.conf)参考，可以直接将其复制到~/.config/kitty/下然后在kitty.conf引入
+
+这里给出[current-theme.conf](../config/kitty/current-theme.conf)参考，可以直接将其复制到~/.config/kitty/下然后在kitty.conf引入。
 关于kitten themes使用见[官网说明](https://sw.kovidgoyal.net/kitty/kittens_intro/?utm_source=chatgpt.com)
 
 ## starship提示符美化
 <https://starship.rs/>
+
 1. 安装 Nerd 字体和 Starship
+
 ```zsh
 sudo pacman -S ttf-jetbrains-mono-nerd starship
 ```
+
 2. 编辑所使用shell的配置文件使其使用Starship
+
 ```zsh
 vim ~/.zshrc
 #添加
 # Starship prompt (managed by pacman).
 eval "$(starship init zsh)"
 ```
+
 3. 美化提示符
+
 ```zsh
 vim ~/.config/starship.toml
 #添加
 ```
 我的配置：[starship](../config/starship/starship.toml)
+
 也可以用官方提供的一些预设：<https://starship.rs/presets/>。
+
 4. 重启终端
 
 
@@ -80,6 +95,7 @@ vim ~/.config/starship.toml
 <https://fishshell.com/>
 
 1. 安装Fish
+
 ```
 sudo pacman -S fish
 ```
@@ -88,15 +104,18 @@ sudo pacman -S fish
 ### zsh
 <https://zsh.sourceforge.io/>
 1. 安装zsh，插件
+
 ```bash
 sudo pacman -S zsh
 chsh -s /usr/bin/zsh
 sudo pacman -S zsh-syntax-highlighting zsh-autosuggestions zsh-completions
 ```
+
 - zsh-syntax-highlightin高亮，
 - zsh-autosuggestions根据历史记录显示灰色建议
 - zsh-completions按Tab时显示这里有哪些合法选项
 2. 配置文件
+
 我的配置：[.zshrc](../config/zsh/.zshrc)
 
 
@@ -105,6 +124,7 @@ sudo pacman -S zsh-syntax-highlighting zsh-autosuggestions zsh-completions
 
 ## niri配置
 Mod+T正常启动一个kitty终端，Mod+/右下角启动一个浮动终端其app-id为quickterminal
+
 ```zsh
 vim ~/.config/niri/config.kdl
 #binds内添加
@@ -124,6 +144,7 @@ window-rule {
 #default-floating-position设置浮动窗口位置
 #relative-to="bottom-right"以工作区右下角为基准
 ```
+
 - "--single-instance"：可选，让 Kitty 尽可能复用已有的 Kitty 进程，而不是每次启动终端都创建一个新的独立进程，优点：减少资源占用，提高启动效率，方便统一管理，缺点：进程崩溃会导致所有终端窗口崩溃
 - "--class" "quickterminal"：指定 Kitty 窗口的应用类名，在 Niri（Wayland）环境中通常对应窗口的 `app-id`，niri msg pick-window时用到
 - "-o" "background_opacity=0.6"：启动 Kitty 时临时覆盖配置文件中的背景透明度，将终端背景设置为 60% 不透明
@@ -134,25 +155,34 @@ window-rule {
 通过该框架可以快捷方便的管理zsh的补充功能。如果要配置该框架无须安装前述的starship和zsh独立插件
 官网<https://ohmyz.sh/>
 收集<https://github.com/unixorn/awesome-zsh-plugins>
+
 1. 安装
+
 ```zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
+
 安装后，就已经有一些默认效果，如命令行提示符的主题变化。安装后会覆盖.zshrc
+
 2. 修改主题
+
 oh-my-zsh 提供了许多内置主题，可查看 [themes](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes) 获取一系列的主题
 ```zsh
 vim ~/.zshrc
 # 将ZSH_THEME修改为
 ZSH_THEME="agnoster" # 默认为 robbyrussell
 ```
+
 3. 内置插件
+
 ```zsh
 vim ~/.zshrc
 # 修改
 plugins=(git z sudo copypath copyfile copybuffer)
 ```
+
 4. 第三方插件
+
 ```zsh
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
@@ -160,7 +190,9 @@ git clone https://github.com/MichaelAquilina/zsh-you-should-use.git ${ZSH_CUSTOM
 # 修改
 plugins=(git z zsh-syntax-highlighting zsh-autosuggestions you-should-use)
 ```
+
 也可以安装主题插件替代内置的主题
+
 ```zsh
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 # 将ZSH_THEME修改为
@@ -171,4 +203,5 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # 重新配置，会重新生成$HOME/.p10k.zsh
 p10k configure 
 ```
+
 我的配置：[.p10k.zsh](../config/zsh/.p10k.zsh)

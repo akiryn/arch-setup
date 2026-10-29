@@ -6,15 +6,19 @@
 
 ## Kitty 配置文件基础
 - Kitty 的常规配置采用：
+
 ```
 配置项 配置值
 ```
+
 - Kitty 支持通过 `include` 引入其他配置文件。还支持通过`globinclude`使用通配符匹配并引入多个配置文件。这意味着可以按功能拆分配置，而不必将所有选项放在一个巨大的文件中
+
 ```
 include theme.conf
 include fonts.conf
 globinclude themes/*.conf
 ```
+
 - Ctrl+Shift+F2	编辑配置文件
 - Ctrl+Shift+F5	重新加载配置
 - Ctrl+Shift+F6	查看配置调试信息
@@ -27,27 +31,32 @@ globinclude themes/*.conf
 - `italic_font`：设置斜体字体。
 - `bold_italic_font`：设置粗斜体字体。
 - `auto`：让 Kitty 自动选择相应字形。
+
 ```
 font_family JetBrainsMono Nerd Font
 bold_font auto
 italic_font auto
 bold_italic_font auto
 ```
+
 ### 2. 字号与字体度量
 - `font_size`：设置字号，单位 pt。
 - `modify_font cell_height`：修改字符单元格高度。
 - `modify_font cell_width`：修改字符单元格宽度。
 - `modify_font baseline`：修改文字基线。
 - 字体度量和窗口内边距是不同概念。
+
 ```
 modify_font cell_height 110%
 modify_font cell_width 105%
 modify_font baseline 2
 ```
+
 ### 3. Nerd Font 与特殊字符
 - `Nerd Font`：添加大量开发工具图标字形的字体。
 - `symbol_map`：可以指定某个 Unicode 字符或字符范围使用特定字体。
 - `narrow_symbols`：调整特定符号的单元格宽度处理。
+
 ```
 symbol_map U+E0A0-U+E0A3 Symbols Nerd Font Mono
 ```
@@ -202,7 +211,7 @@ Kitten 是 Kitty 提供的一组辅助工具，可以完成主题切换、图片
 | `kitten diff`          | 交互式比较文件差异        |
 | `kitten @`             | 使用 Kitty 远程控制命令  |
 | `kitten choose-fonts`  | 交互式配置字体          
-#### kitten hints
+#### kitten hints快速选择文本
 
 | 参数                  | 作用        |
 | ------------------- | --------- |
@@ -216,6 +225,8 @@ Kitten 是 Kitty 提供的一组辅助工具，可以完成主题切换、图片
 | `--program @`       | 复制到系统剪贴板  |
 | `--program -`       | 将内容插入终端   |
 | `--program default` | 使用默认程序处理  |
+
+
 其中 `--program` 决定选中内容之后做什么，而 `--type` 决定识别什么。
 
 该功能通常配合自定义快捷键使用，添加`keybindings.conf`自定义快捷键。操作方式：先按 `Ctrl+Shift+P`，**全部松开，再按小写字母**。
@@ -262,19 +273,44 @@ shell_integration enabled
 - 支持提示符跳转、命令输出查看等功能。
 - 与 `shell zsh` 不同。
 - 不等于 Oh My Zsh。
+
 官方说明：[Shell integration](https://sw.kovidgoyal.net/kitty/shell-integration/?utm_source=chatgpt.com)。
-### 3. 环境变量
-```
-env MY_PROJECT=embedded
-```
-- `env`：设置 Kitty 子进程继承的环境变量。
-- `.zshrc`：主要配置 Zsh 的交互环境。
-### 4. 启动会话
+
+
+### 3. 启动会话
+假设你希望打开 Kitty 后，自动建立开发工作区：
+
+- 第一个标签页用于编辑代码。
+    
+- 第二个标签页用于编译。
+    
+- 第三个标签页用于 Git 操作。
+    
+
+Kitty 可以通过 Session 文件描述启动布局。
+
+例如，在 `kitty.conf` 中设置：
+
 ```
 startup_session ~/.config/kitty/dev.session
 ```
 用于指定启动时加载的 Kitty Session 文件，可以预设标签页、窗格和程序。
-### 5. 远程控制
+
+
+再建立 `dev.session`：
+
+```
+new_tab Editor
+launch --type=window --cwd=current nvim
+
+new_tab Build
+launch --type=window --cwd=current zsh
+
+new_tab Git
+launch --type=window --cwd=current zsh
+```
+
+### 4. 远程控制
 ```
 kitten @ ls
 ```
@@ -282,12 +318,87 @@ kitten @ ls
 - `allow_remote_control`：控制远程访问权限。
 - 不建议无条件开放远程控制。
 
-### 6. 重要区别
+### 5. 重要区别
 - Kitten ≠ Kitty 本体。
 - Shell Integration ≠ Shell 插件框架。
 - `env` ≠ Shell 局部变量。
 - Session ≠ Niri 工作区。
 - Remote Control ≠ 普通快捷键映射。
+
+# Kitty 配置管理总结
+
+## 1. 配置文件
+
+默认路径：
+
+```
+~/.config/kitty/kitty.conf
+```
+
+使用 `include` 加载其他配置文件：
+
+```
+include fonts.conf
+include appearance.conf
+include keybindings.conf
+```
+
+## 2. 推荐配置结构
+
+```
+~/.config/kitty/
+├── kitty.conf
+├── fonts.conf
+├── appearance.conf
+├── tabs.conf
+├── keybindings.conf
+└── current-theme.conf
+```
+
+## 3. 常用配置项
+
+|配置项|作用|
+|---|---|
+|`shell`|指定 Shell|
+|`shell_integration`|Shell 集成|
+|`font_family`|字体家族|
+|`font_size`|字体大小|
+|`background_opacity`|背景不透明度|
+|`window_padding_width`|窗格内边距|
+|`enabled_layouts`|可用布局|
+|`tab_bar_style`|标签栏样式|
+|`scrollback_lines`|滚动历史行数|
+|`kitty_mod`|快捷键修饰组合|
+|`map`|自定义快捷键|
+|`startup_session`|启动会话|
+|`allow_remote_control`|远程控制权限|
+
+## 4. 常用操作
+
+|操作|方法|
+|---|---|
+|编辑配置|`Ctrl+Shift+F2`|
+|重载配置|`Ctrl+Shift+F5`|
+|查看配置调试信息|`Ctrl+Shift+F6`|
+|查看版本|`kitty --version`|
+|查看命令帮助|`kitty --help`|
+
+## 5. 配置维护原则
+
+1. 保留默认快捷键，仅覆盖需要修改的部分。
+    
+2. 使用 `include` 对配置进行模块化管理。
+    
+3. 将个人颜色覆盖项放在主题加载之后。
+    
+4. 通过 `kitten themes` 管理主题文件。
+    
+5. 修改重要配置前先备份。
+    
+6. 不随意开放远程控制权限。
+    
+7. 遇到问题先查看本机版本、帮助和调试信息。
+    
 
 # Kitty 默认快捷键汇总
 
