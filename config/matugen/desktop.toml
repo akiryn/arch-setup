@@ -1,0 +1,10 @@
+[config]
+
+[templates.fuzzel]
+input_path = '~/.config/matugen/templates/fuzzel.ini'
+output_path = '~/.config/fuzzel/colors.ini'
+
+[templates.mako]
+input_path = '~/.config/matugen/templates/mako-colors.conf'
+output_path = '~/.config/mako/colors.conf'
+post_hook = 'makoctl reload'

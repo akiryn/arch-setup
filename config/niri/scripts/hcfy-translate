@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+"""Open selected or copied text in the installed hcfy extension."""
+import subprocess
+from urllib.parse import quote
+
+
+def read_clipboard(*args):
+    result = subprocess.run(
+        ["wl-paste", *args, "--no-newline"],
+        capture_output=True,
+        text=True,
+    )
+    return result.stdout if result.returncode == 0 else ""
+
+
+text = read_clipboard("--primary")
+if not text.strip():
+    text = read_clipboard()
+
+url = (
+    "chrome-extension://ikhdkkncnoglghljlkmcimlnlhkeamad/"
+    "panel.html?text=" + quote(text, safe="")
+)
+subprocess.Popen(["google-chrome-stable", "--app=" + url])
