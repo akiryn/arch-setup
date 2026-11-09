@@ -1,3 +1,3 @@
 
 
-终端配置：[terminal](wiki/terminal.md)
+终端配置：[终端](终端.md)
