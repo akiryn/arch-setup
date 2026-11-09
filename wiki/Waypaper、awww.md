@@ -35,7 +35,7 @@ Waypaper/config.ini配置文件
 ```ini
 backend = awww
 
-post_command = $HOME/.config/scripts/matugen-update.sh && sleep 0.8 && $HOME/.config/scripts/niri_set_overview_blur_dark_bg.sh
+post_command = $HOME/.config/scripts/ $HOME/.config/scripts/niri_set_overview_blur_dark_bg.sh
 ```
 这里依次执行配色更新、等待 `0.8` 秒、生成概览背景。
 
