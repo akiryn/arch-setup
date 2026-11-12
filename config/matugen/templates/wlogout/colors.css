@@ -1,0 +1,6 @@
+@define-color wl_background {{colors.background.default.hex}};
+@define-color wl_surface {{colors.surface_container.default.hex}};
+@define-color wl_foreground {{colors.on_surface.default.hex}};
+@define-color wl_border {{colors.outline_variant.default.hex}};
+@define-color wl_hover {{colors.secondary_container.default.hex}};
+@define-color wl_on_hover {{colors.on_secondary_container.default.hex}};

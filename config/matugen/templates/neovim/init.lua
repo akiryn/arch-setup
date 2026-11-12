@@ -1,3 +1,38 @@
+--- 基础编辑设置
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.cursorline = true
+vim.opt.termguicolors = true
+
+-- 默认使用 4 空格缩进
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.smartindent = true
+
+-- 搜索
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+-- 编辑体验
+vim.opt.scrolloff = 5
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+vim.opt.undofile = true
+
+-- 快捷键：普通模式下依次按空格和对应字母
+vim.keymap.set("n", "<leader>w", "<cmd>write<CR>", {
+  desc = "保存文件",
+})
+vim.keymap.set("n", "<leader>q", "<cmd>quit<CR>", {
+  desc = "退出窗口",
+})
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", {
+  desc = "清除搜索高亮",
+})
 -- ==========================================================================
 -- 1. 自动安装插件管理器 (Lazy.nvim)
 -- ==========================================================================
@@ -57,7 +92,6 @@ local function matugen_reload()
   -- require('lualine').setup({ options = { theme = 'base16' } })
   
   -- 修复一些高亮丢失
-  vim.api.nvim_set_hl(0, "Comment", { italic = true })
 end
 
 -- 监听 Matugen 发出的信号
@@ -70,4 +104,4 @@ vim.api.nvim_create_autocmd("Signal", {
 })
 
 -- 启动时加载一次
-source_matugen()
+matugen_reload()

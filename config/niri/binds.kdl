@@ -1,10 +1,4 @@
 binds {
-    Mod+F1 { spawn-sh "pkill fcitx5 || fcitx5"; }
-    Mod+E { spawn "nautilus"; }
-    Mod+Alt+V {spawn "clipse-gui";}
-    Mod+F12 {spawn-sh "pkill waybar || true && waybar";}
-    Mod+Alt+W {spawn "waypaper";}
-    Alt+S { spawn "/home/y/.config/niri/scripts/hcfy-translate"; }
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
     // in the end. To find an XKB name for a particular key, you may use a program
     // like wev.
@@ -17,30 +11,54 @@ binds {
 
     // Mod-Shift-/, which is usually the same as Mod-?,
     // shows a list of important hotkeys.
-    Mod+Shift+Slash { show-hotkey-overlay; }
+
+    Mod+Shift+Slash hotkey-overlay-title="快捷键教程 Keybind tutorial" { spawn "~/.config/niri/scripts/niri-keybind-menu"; }
+    Mod+Alt+W hotkey-overlay-title="打开Waypaper Open Waypaper" {spawn "waypaper";}
+    Mod+Alt+M hotkey-overlay-title="切换颜色策略 Change color strategy" {spawn "~/.config/niri/scripts/matugen-select-type";}
+    // 打开浏览器
+    Mod+B hotkey-overlay-title="浏览器 Browser" { spawn "google-chrome-stable"; }
+    Mod+P repeat=false hotkey-overlay-title="取色并复制HEX Color picker" { spawn-sh "\"$HOME/.config/niri/scripts/niri-pick\" hex && pw-play /usr/share/sounds/freedesktop/stereo/message.oga"; }
+    Mod+Ctrl+P hotkey-overlay-title="提取窗口信息 Pick information" { spawn "~/.config/niri/scripts/niri-pick" "focus"; }
+
+
+    Mod+F1 repeat=false hotkey-overlay-title="开关输入法 Toggle fcitx" {spawn-sh "pkill -x fcitx5 || fcitx5 -d";}
+    Mod+F2 repeat=false hotkey-overlay-title="重启waybar Restart Waybar"  {spawn-sh "pkill cava || true && pkill waybar || true && waybar ";}
+    // 这一行是用waybar自己支持的信号功能隐藏waybar，但进程没有退出，资源占用依旧有
+    Mod+F3 hotkey-overlay-title="显示/隐藏waybar Hide bar" {spawn-sh "killall -SIGUSR1 -x waybar";}
+
+    Mod+F10 hotkey-overlay-title="随机切换壁纸 Random wallpaper" {spawn "waypaper" "--random";}
+    Mod+F12 hotkey-overlay-title="截取所有显示器 Screenshot All Monitor"  {spawn-sh "grim - | wl-copy & pw-play /usr/share/sounds/freedesktop/stereo/camera-shutter.oga ";}
+
+
+
+
+    Mod+Alt+V hotkey-overlay-title="打开剪贴板 Open clipboard" {spawn "clipse-gui";}
+    Alt+S hotkey-overlay-title="打开划词翻译" { spawn "/home/y/.config/niri/scripts/hcfy-translate"; }
+
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+T hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty" "--single-instance"; }
-    // 临时使用：浮动终端
-    Mod+Slash {
-        spawn "kitty" "--single-instance" "--class" "quickterminal" "-o" "background_opacity=0.5";
-    }
-    Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    Mod+D hotkey-overlay-title="打开应用启动器 Open the app launcher" { spawn "fuzzel"; }
+    Mod+T hotkey-overlay-title="打开终端 Open a Terminal kitty" { spawn "kitty" "--single-instance"; }
+    // 临时开一个浮动终端
+    Mod+Slash hotkey-overlay-title="临时终端 Quick Terminal" { spawn "kitty" "--single-instance" "--class" "quickterminal"; }
+    Mod+Alt+E hotkey-overlay-title="文档管理器 thunar" { spawn "thunar";}
+    Mod+E hotkey-overlay-title="文档管理器 nautilus" { spawn "nautilus"; }
+    Mod+Alt+L repeat=false hotkey-overlay-title="锁屏 Lock the Screen: swaylock" { spawn-sh "niri msg action open-overview; sleep 0.2; exec swaylock"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
     // For example, this is a standard bind to toggle the screen reader (orca).
-    Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
+    // Orca 是 Linux 的屏幕阅读器，主要帮助视障用户操作电脑。通过语音朗读按钮、菜单、文本和当前焦点，也支持盲文显示设备。
+    // Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
     // Using spawn-sh allows to pass multiple arguments together with the command.
     // "-l 1.0" limits the volume to 100%.
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
-    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
-    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    XF86AudioRaiseVolume allow-when-locked=true hotkey-overlay-title="提高音量5% Increase volume by 5%" { spawn-sh "swayosd-client --output-volume +5 --max-volume 100 || wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0"; }
+    XF86AudioLowerVolume allow-when-locked=true hotkey-overlay-title="降低音量5% Decrease  volume by 5%" { spawn-sh "swayosd-client --output-volume -5 || wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"; }
+    XF86AudioMute allow-when-locked=true hotkey-overlay-title="静音开关 Mute switch " { spawn-sh "swayosd-client --output-volume mute-toggle || wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    XF86AudioMicMute allow-when-locked=true hotkey-overlay-title="麦克风开关 Microphone switch" { spawn-sh "swayosd-client --input-volume mute-toggle || wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle "; }
 
     // Example media keys mapping using playerctl.
     // This will work with any MPRIS-enabled media player.
@@ -52,63 +70,74 @@ binds {
     // Example brightness key mappings for brightnessctl.
     // You can use regular spawn with multiple arguments too (to avoid going through "sh"),
     // but you need to manually put each argument in separate "" quotes.
-    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+    // XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+5%"; }
+    // XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "5%-"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "swayosd-client" "--brightness" "+5"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "swayosd-client" "--brightness" "-5"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
     // or do a four-finger swipe up on a touchpad.
-    Mod+O repeat=false { toggle-overview; }
+    Mod+O hotkey-overlay-title="切换总览界面 toggle overview" repeat=false { toggle-overview; }
 
-    Mod+Q repeat=false { close-window; }
+    Mod+Q hotkey-overlay-title="关闭聚焦窗口 Close focus window" repeat=false { close-window; }
+    Alt+F4  hotkey-overlay-title="强制杀死窗口 Force kill -9 window" repeat=false { spawn "~/.config/niri/scripts/niri-force-kill-window"; }
+    Alt+Shift+F4  hotkey-overlay-title="强制杀死窗口以及关联进程 Force kill -9 a window tree" repeat=false { spawn "~/.config/niri/scripts/niri-force-kill-window" "-f"; }
+    Mod+MouseMiddle hotkey-overlay-title="中键关闭鼠标 Close with middle mouse button"  { close-window; }
 
-    Mod+Left  { focus-column-left; }
-    Mod+Down  { focus-window-down; }
-    Mod+Up    { focus-window-up; }
+    Mod+Left { focus-column-left; }
+    Mod+Down { focus-window-down; }
+    Mod+Up { focus-window-up; }
     Mod+Right { focus-column-right; }
-    Mod+H     { focus-column-left; }
-    Mod+J     { focus-window-down; }
-    Mod+K     { focus-window-up; }
-    Mod+L     { focus-column-right; }
 
-    Mod+Ctrl+Left  { move-column-left; }
-    Mod+Ctrl+Down  { move-window-down; }
-    Mod+Ctrl+Up    { move-window-up; }
+    Mod+H { focus-column-left; }
+    // Mod+J { focus-window-down; }
+    Mod+J { focus-window-or-workspace-down; }
+    // Mod+K { focus-window-up; }
+    Mod+K { focus-window-or-workspace-up; }
+    Mod+L { focus-column-right; }
+
+    Mod+Ctrl+Left { move-column-left; }
+    Mod+Ctrl+Down { move-window-down; }
+    Mod+Ctrl+Up { move-window-up; }
     Mod+Ctrl+Right { move-column-right; }
-    Mod+Ctrl+H     { move-column-left; }
-    Mod+Ctrl+J     { move-window-down; }
-    Mod+Ctrl+K     { move-window-up; }
-    Mod+Ctrl+L     { move-column-right; }
+
+    Mod+Ctrl+H { move-column-left; }
+    // Mod+Ctrl+J     { move-window-down; }
+    Mod+Ctrl+J { move-window-down-or-to-workspace-down; }
+    // Mod+Ctrl+K     { move-window-up; }
+    Mod+Ctrl+K { move-window-up-or-to-workspace-up; }
+    Mod+Ctrl+L { move-column-right; }
 
     // Alternative commands that move across workspaces when reaching
     // the first or last window in a column.
-    // Mod+J     { focus-window-or-workspace-down; }
-    // Mod+K     { focus-window-or-workspace-up; }
-    // Mod+Ctrl+J     { move-window-down-or-to-workspace-down; }
-    // Mod+Ctrl+K     { move-window-up-or-to-workspace-up; }
+    // Mod+J { focus-window-or-workspace-down; }
+    // Mod+K { focus-window-or-workspace-up; }
+    // Mod+Ctrl+J { move-window-down-or-to-workspace-down; }
+    // Mod+Ctrl+K { move-window-up-or-to-workspace-up; }
 
     Mod+Home { focus-column-first; }
-    Mod+End  { focus-column-last; }
+    Mod+End { focus-column-last; }
     Mod+Ctrl+Home { move-column-to-first; }
-    Mod+Ctrl+End  { move-column-to-last; }
+    Mod+Ctrl+End { move-column-to-last; }
 
-    Mod+Shift+Left  { focus-monitor-left; }
-    Mod+Shift+Down  { focus-monitor-down; }
-    Mod+Shift+Up    { focus-monitor-up; }
+    Mod+Shift+Left { focus-monitor-left; }
+    Mod+Shift+Down { focus-monitor-down; }
+    Mod+Shift+Up { focus-monitor-up; }
     Mod+Shift+Right { focus-monitor-right; }
-    Mod+Shift+H     { focus-monitor-left; }
-    Mod+Shift+J     { focus-monitor-down; }
-    Mod+Shift+K     { focus-monitor-up; }
-    Mod+Shift+L     { focus-monitor-right; }
+    Mod+Shift+H { focus-monitor-left; }
+    Mod+Shift+J { focus-monitor-down; }
+    Mod+Shift+K { focus-monitor-up; }
+    Mod+Shift+L { focus-monitor-right; }
 
-    Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
-    Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
-    Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+Left { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+Down { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+Up { move-column-to-monitor-up; }
     Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
-    Mod+Shift+Ctrl+H     { move-column-to-monitor-left; }
-    Mod+Shift+Ctrl+J     { move-column-to-monitor-down; }
-    Mod+Shift+Ctrl+K     { move-column-to-monitor-up; }
-    Mod+Shift+Ctrl+L     { move-column-to-monitor-right; }
+    Mod+Shift+Ctrl+H { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+J { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+K { move-column-to-monitor-up; }
+    Mod+Shift+Ctrl+L { move-column-to-monitor-right; }
 
     // Alternatively, there are commands to move just a single window:
     // Mod+Shift+Ctrl+Left  { move-window-to-monitor-left; }
@@ -117,6 +146,11 @@ binds {
     // And you can also move a whole workspace to another monitor:
     // Mod+Shift+Ctrl+Left  { move-workspace-to-monitor-left; }
     // ...
+
+    Mod+Shift+Ctrl+Alt+H hotkey-overlay-title="移动工作区到左侧显示器" { move-workspace-to-monitor-left; }
+    Mod+Shift+Ctrl+Alt+J hotkey-overlay-title="移动工作区到下方显示器" { move-workspace-to-monitor-down; }
+    Mod+Shift+Ctrl+Alt+K hotkey-overlay-title="移动工作区到上方显示器" { move-workspace-to-monitor-up; }
+    Mod+Shift+Ctrl+Alt+L hotkey-overlay-title="移动工作区到右方显示器" { move-workspace-to-monitor-right; }
 
     Mod+Page_Down      { focus-workspace-down; }
     Mod+Page_Up        { focus-workspace-up; }
@@ -147,6 +181,7 @@ binds {
     Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
     Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
 
+    // 如果滚轮支持左右的话这里可以设置切换聚焦和移动窗口
     // Mod+WheelScrollRight      { focus-column-right; }
     // Mod+WheelScrollLeft       { focus-column-left; }
     // Mod+Ctrl+WheelScrollRight { move-column-right; }
@@ -269,8 +304,13 @@ binds {
     // since it will switch twice upon pressing the hotkey (once by xkb, once by niri).
     // Mod+Space       { switch-layout "next"; }
     // Mod+Shift+Space { switch-layout "prev"; }
+     Mod+Alt+A  hotkey-overlay-title="Select screenshot"  {spawn-sh "niri msg action screenshot --show-pointer false && pkill -f -USR1 screenshot-sound.sh";}
+     Mod+Alt+Ctrl+A  hotkey-overlay-title="Focus-window screenshot" { spawn-sh "niri msg action screenshot-window --show-pointer false && pkill -f -USR1 screenshot-sound.sh"; }
+     Mod+Alt+Ctrl+Shift+A  hotkey-overlay-title="Monitor screenshot" { spawn-sh "niri msg action screenshot-screen --show-pointer false && pkill -f -USR1 screenshot-sound.sh"; }
 
-    Mod+S { spawn "mark-shot"; }
+    Mod+Shift+S  hotkey-overlay-title="Edit the image after screenshot" { spawn-sh "wl-paste | satty -f -";}
+
+    Print { screenshot; }
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
 
@@ -285,11 +325,11 @@ binds {
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
     // The quit action will show a confirmation dialog to avoid accidental exits.
-    Mod+Shift+E { quit; }
-    Ctrl+Alt+Delete { quit; }
+    Mod+Shift+E hotkey-overlay-title="退出niri Quit niri" { quit; }
+    Ctrl+Alt+Delete hotkey-overlay-title="退出niri Quit niri" { quit; }
 
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
-    Mod+Shift+P { power-off-monitors; }
+    Mod+Shift+P  hotkey-overlay-title="电源菜单 powermenu" { spawn "~/.config/niri/scripts/powermenu"; }
 }
 

@@ -30,7 +30,7 @@ autoload -Uz compinit
 compinit
 
 # ── 编辑按键 ──────────────────────────────────
-bindkey -v
+bindkey -e
 KEYTIMEOUT=10
 # 仅调整 Vi 插入模式
 bindkey -M viins '^F' autosuggest-accept
@@ -50,3 +50,16 @@ eval "$(starship init zsh)"
 
 # ── 语法高亮：保持最后加载 ─────────────────────
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# 别名
+alias ll='ls -alh'
+alias pac='sudo pacman -S --needed --noconfirm'
+
+# yazi
+function y() {
+	local tmp cwd; tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd" || builtin true
+	command rm -f -- "$tmp"
+}

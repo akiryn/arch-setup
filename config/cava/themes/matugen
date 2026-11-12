@@ -1,0 +1,13 @@
+[color]
+; 使用终端背景，保留终端自身的透明效果
+background = default
+foreground = '#86d1ea'
+
+; 垂直渐变：从底部到顶部
+gradient = 1
+gradient_color_1 = '#86d1ea'
+gradient_color_2 = '#b3cad3'
+gradient_color_3 = '#c1c4eb'
+
+; 暂不启用水平渐变
+horizontal_gradient = 0

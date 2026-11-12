@@ -1,41 +1,76 @@
 {
-    "include": [
-        "~/.config/waybar/modules.jsonc"
-    ],
-    "layer":"top",
-    "position": "bottom",
-    // "height": 40,
-    "fixed-center": true,
-    "reload_style_on_change": true,
-    "modules-left": [
-        "niri/workspaces",
-        "custom/cava",
-        "mpris",
-        "custom/screenshot",
-        "custom/wfrec",
-	"custom/wallpapers",
-	"custom/clipboard",
-	"custom/actions",
-        "custom/colorpicker",
-        "niri/window",
-    ],
-    "modules-center": [
-        "custom/applauncher"
-        //"custom/separator#2",
-        //"cffi/niri-taskbar", //需要安装waybar-niri-taskbar-git
-    ],
-    "modules-right": [
-        "custom/updates",
-        "tray",
-	"custom/mako",
-        "group/ddcutil",
-        "group/audio",
-        "bluetooth",
-        "network",
-        "idle_inhibitor",
-        "battery",
-        "power-profiles-daemon",
-        "clock",
-        "group/powermenu"
-    ],
+	"mode": "dock",
+	"position": "top",
+	"layer": "top",
+	"width": 0,
+	"height": 0,
+	"margin": 0,
+	"spacing": 0,
+	"reload_style_on_change": true,
+	"output": "DP-6",
+
+	"include": [
+		"~/.config/waybar/modules/custom/*.jsonc",
+		// "~/.config/waybar/modules/hyprland/*.jsonc",
+		"~/.config/waybar/modules/optional/*.jsonc",
+		"~/.config/waybar/modules/*.jsonc"
+	],
+
+	"modules-left": [
+		//"custom/user",
+
+		"custom/left#bg_1",
+		"ext/workspaces",
+		"custom/right#bg_1",
+
+		"niri/window",
+		"wlr/taskbar"
+	],
+
+	"modules-center": [
+		"custom/left#bg_1",
+		"temperature",
+
+		"custom/left#bg_2",
+		"memory",
+
+		"custom/left#bg_3",
+		"cpu",
+		"custom/left_inverse#bg_3",
+
+		"custom/left#accent",
+		"custom/distro",
+		"custom/right#accent",
+
+		"custom/right_inverse#bg_3",
+		"idle_inhibitor",
+		"clock#time",
+		"custom/right#bg_3",
+
+		"clock#date",
+		"custom/right#bg_2",
+
+		"network",
+		"bluetooth",
+		"custom/update",
+		"custom/right#bg_1"
+	],
+
+	"modules-right": [
+		"mpris",
+		"tray",
+
+		"custom/left#bg_1",
+		"group/pulseaudio",
+		//"group/wireplumber",
+
+		"custom/left#bg_2",
+		"backlight",
+
+		"custom/left#bg_3",
+		"battery",
+		"custom/left_inverse#bg_3",
+
+		"custom/power"
+	]
 }

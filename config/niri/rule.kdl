@@ -45,11 +45,6 @@ window-rule {
 // Example: enable rounded corners for all windows.
 // (This example rule is commented out with a "/-" in front.)
 window-rule {
-    match app-id="clipse-gui"
-    match app-id="waypaper"
-    open-floating true
-}
-window-rule {
     match app-id="^quickterminal$"
     open-floating true
     default-column-width { proportion 0.4; }
@@ -62,4 +57,24 @@ window-rule {
     match app-id="^imv$"
     match app-id="^celluloid$"
     opacity 1.0
+}
+
+// Software opened in floating mode
+window-rule {
+    // 剪贴板
+    match app-id="clipse-gui"
+    match app-id="waypaper"
+    match app-id="^com.gabm.satty$"
+    // 快捷键菜单
+    match app-id="niri-hotkey-menu"
+
+    open-floating true
+    open-focused true
+}
+
+// 将 overview 专用壁纸放入概览背景。
+layer-rule {
+    match namespace="^awww-daemonoverview$"
+
+    place-within-backdrop true
 }

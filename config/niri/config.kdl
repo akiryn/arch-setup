@@ -114,7 +114,7 @@ include "output.kdl"
 // https://niri-wm.github.io/niri/Configuration:-Layout
 
 include "layout.kdl"
-
+include "colors.kdl"
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,
 // which may be more convenient to use.
@@ -127,12 +127,14 @@ spawn-at-startup "mako"
 spawn-at-startup "fcitx5" "-d"
 spawn-at-startup "clipse" "--listen"
 spawn-at-startup "awww-daemon"
+spawn-at-startup "awww-daemon" "-n" "overview"
+spawn-at-startup "swayosd-server"
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
-    // skip-at-startup
+    skip-at-startup
 }
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -145,10 +147,10 @@ hotkey-overlay {
 // You can change the path where screenshots are saved.
 // A ~ at the front will be expanded to the home directory.
 // The path is formatted with strftime(3) to give you the screenshot date and time.
-// screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
 // You can also set this to null to disable saving screenshots to disk.
-screenshot-path null
+// screenshot-path null
 
 // Animation settings.
 // The wiki explains how to configure individual animations:

@@ -1,434 +1,245 @@
-@import "colors.css";
+@import "themes/matugen.css";
 
-
-/* 用ai把所有的字体大小都设置为自动变化的了
-    核心修改逻辑：
-   这里定义基准大小
-   下方所有使用 em 单位的字体都会基于这个数值缩放。
-   如果未来 Bar 高度变了，只需要修改这里即可。
-*/
 * {
-    border: none;
-    border-radius: 5px;
-    font-family: "JetBrainsMono NFP","LXGW WenKai Screen", "JetBrains Maple Mono","Font Awesome 7 Free";
-    font-size: 16px; /* 1em（基准） */
-    min-height: 0;
+	font-family: "GoogleSansCode Nerd Font";
+	font-size: 13px;
+	font-weight: 500;
+	color: @m_fg;
 }
 
-window#waybar {
-    border-radius: 0px;
-    background: @surface;
-    color: @on_surface;
+#waybar {
+	background-color: transparent;
+}
+#waybar > box {
+	margin: 3px 12px;
+	background-color: @m_bg_0;
+	border-radius: 12px;
+}
+
+.module {
+	margin-bottom: -1px; /* Vertically align modules */
+}
+
+.modules-center {
+	padding-left: 14px; /* Center center modules */
+}
+
+button {
+	border: none;
+	border-radius: 16px;
+	padding: 0 10px;
+	min-width: 16px;
+	min-height: 24px;
+}
+button:hover {
+	background-color: @m_bg_alt;
+	background-image: none;
+	color: @m_fg_alt;
 }
 
 tooltip {
-    background: @surface_container_high;
-    border: 2px solid @outline;
-    opacity: 1;
+	border: 2px solid @m_border;
+	border-radius: 12px;
+	background-color: @m_bg_0;
+}
+tooltip box {
+	margin: -4px;
+	padding: 0 6px;
 }
 
-tooltip label {
-    color: @on_surface;
-    font-size: 0.89em; /* 原 16px */
+menu {
+	border: 2px solid @m_border;
+	border-radius: 12px;
+	background-color: @m_bg_0;
+}
+menu menuitem {
+	margin: 0 2px;
+}
+menu menuitem:hover {
+	background-color: @m_bg_alt;
+}
+menu separator {
+	margin: 0 2px;
+	background-color: @m_bg_alt;
+}
+
+/* Left modules */
+
+#custom-user {
+	padding: 0 16px;
 }
 
 #workspaces {
-    background-color: @surface_container_high;
-    padding: 0px 5px;
-    margin: 5px;
+	padding: 0 1px;
+	background-color: @m_bg_1;
 }
-
-#workspaces button {
-    padding: 0px 10px;
-    color: @tertiary_container;
-}
-
-/* #workspaces label {
-    font-size: 1.11em; 原 20px 
-} */
-
-#workspaces button:hover {
-    background: @surface_bright;
-}
-
-#workspaces button.active {
-    color: @tertiary;
-}
-
-#mpris,
-#custom-cava {
-    background-color: @surface_container_high;
-    color: @primary;
-}
-
-#custom-cava {
-    padding: 0px 10px 0px 10px;
-    margin: 5px 0px 5px 5px;
-
-}
-#mpris {
-    padding: 0px 5px;
-    margin: 5px 0px 5px 5px;
-
-}
-
-#custom-screenshot,
-#custom-wfrec,
-#custom-actions,
-#custom-clipboard,
-#custom-wallpapers,
-#custom-colorpicker {
-    background-color: @surface_container_high;
-    color: @tertiary;
-}
-
-#custom-wfrec.recording {
-    color: @error;
-}
-
-#custom-screenshot,
-#custom-wfrec,
-#custom-actions,
-#custom-clipboard,
-#custom-wallpapers,
-#custom-colorpicker {
-    padding: 0px 5px;
-    margin: 5px 0px 5px 0px;
-    font-size: 1.11em; /* 原 20px */
-}
-
-#custom-screenshot {
-    padding: 0px 5px 0px 10px;
-    margin: 5px 0px 5px 10px;
-    border-radius: 5px 0px 0px 5px;
-}
-
-#custom-actions,
-#custom-clipboard,
-#custom-wallpapers,
-#custom-wfrec {
-    border-radius: 0px;
-}
-
-
-#custom-actions {
-    font-size: 1.3em;
-}
-
-
-#custom-colorpicker {
-    padding: 0px 10px 0px 5px;
-    margin: 5px 5px 5px 0px;
-    border-radius: 0px 5px 5px 0px;
+#workspaces button.active label,
+#workspaces button.focused label {
+	font-size: 18.75px;
+	color: @m_accent;
 }
 
 #window {
-    padding: 0px 10px;
-    background-color: @surface_container_high;
-    color: @on_surface;
-    margin: 5px
+	margin: -1px 0; /* https://github.com/Alexays/Waybar/issues/2026 */
+	padding-left: 12px;
 }
 
-#window label {
-    font-size: 0.89em; /* 原 16px */
+/* Center modules */
+
+#temperature {
+	background-color: @m_bg_1;
+}
+#temperature.critical {
+	color: @m_critical;
 }
 
-window#waybar.empty #window {
-    background-color: @surface;
+#memory {
+	background-color: @m_bg_2;
+}
+#memory.warning {
+	color: @m_warning;
+}
+#memory.critical {
+	color: @m_critical;
 }
 
-#custom-applauncher {
-    font-size: 1.39em; /* 原 25px */
-    padding: 0px 0.45em;
-    margin: 5px;
-    background-color: @primary;
-    color: @on_primary;
+#cpu {
+	background-color: @m_bg_3;
+}
+#cpu.warning {
+	color: @m_warning;
+}
+#cpu.critical {
+	color: @m_critical;
 }
 
-#custom-separator.2 {
-    font-size: 1.56em; /* 原 28px */
-    padding: 0px 5px;
-    /* background-color:@primary; */
-    color: @on_surface;
+#custom-distro {
+	font-size: 18.75px;
+	padding: 0 10px 0 5px;
+	background-color: @m_accent;
+	color: @m_bg_0;
 }
 
-/* waybar niri taskbar */
-.niri-taskbar {
-    background: none;
-    padding: 0px;
-    margin: 4px 4px 4px 0px;
-}
-
-.niri-taskbar button:hover {
-    background: @secondary_container;
-}
-
-.niri-taskbar button.focused {
-    background: @secondary_container;
-}
-
-.niri-taskbar button.urgent {
-    background-color: @tertiary;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: steps(12);
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
-@keyframes blink {
-    to {
-        background-color: @primary;
-        color: @error;
-    }
-}
-
-#custom-updates {
-    padding: 0px 10px;
-    margin: 5px;
-    background-color: @surface_container_high;
-    color: @error;
-}
-
-#tray {
-    padding: 0px 10px;
-    background-color: @surface_container_high;
-    margin: 5px;
-}
-
-#custom-ddcutil-day,
-#custom-ddcutil-night,
-#custom-ddcutil-sleep,
-#custom-separator.1,
-#backlight {
-    background-color: @surface_container_high;
-    color: @secondary;
-}
-
-#custom-ddcutil-day,
-#custom-ddcutil-night,
-#custom-ddcutil-sleep,
-#custom-separator.1 {
-    font-size: 1.11em; /* 原 20px */
-    padding: 0px 5px;
-}
-
-#custom-ddcutil-day {
-    padding: 0px 10px;
-    margin: 5px 5px 5px 5px;
-    border-radius: 5px 5px 5px 5px;
-}
-
-#custom-ddcutil-night {
-    border-radius: 0px 5px 5px 0px;
-    margin: 8px 2px 8px 0px;
-}
-
-#custom-ddcutil-sleep,
-#custom-separator.1 {
-    border-radius: 0px;
-    margin: 8px 0px;
-}
-
-
-#backlight {
-    font-size: 1.22em; /* 原 22px */
-    padding: 0px 5px 0px 0px;
-    margin: 8px 0px;
-    border-radius: 0px;
-}
-
-#backlight-slider {
-    background-color: @surface_container_high;
-    padding: 0px 7px 0px 10px;
-    margin: 8px 0px 8px 10px;
-    border-radius: 5px 0px 0px 5px
-}
-
-#backlight-slider slider {
-    min-height: 0px;
-    min-width: 0px;
-    opacity: 0;
-    background-image: none;
-    border: none;
-    box-shadow: none;
-    background: none;
-}
-
-#backlight-slider trough {
-    min-height: 10px;
-    min-width: 80px;
-    border-radius: 5px;
-    opacity: 0;
-    background-color: @surface;
-}
-
-#backlight-slider highlight {
-    min-width: 10px;
-    border-radius: 5px;
-    background-color: @secondary;
-}
-
-#pulseaudio {
-    /* font-size: 1.11em; 原 20px */
-    padding: 0px 10px;
-    margin: 5px;
-}
-
-#pulseaudio-slider {
-    padding: 0px 5px;
-    margin: 8px 2px 8px 5px;
-}
-
-#pulseaudio-slider,
-#pulseaudio {
-    background-color: @surface_container_high;
-    color: @secondary;
-}
-
-#pulseaudio-slider slider {
-    min-height: 0px;
-    min-width: 0px;
-    opacity: 0;
-    background-image: none;
-    box-shadow: none;
-    background: none;
-}
-
-#pulseaudio-slider trough {
-    min-height: 10px;
-    min-width: 80px;
-    border-radius: 5px;
-    background-color: @surface;
-}
-
-#pulseaudio-slider highlight {
-    min-width: 0px;
-    border-radius: 5px;
-    background-color: @secondary;
-}
-
-#network,
-#bluetooth {
-    background-color: @surface_container_high;
-    color: @secondary;
-    font-size: 1.22em; /* 原 22px */
-}
-
-#bluetooth {
-    padding: 0px 5px 0px 10px;
-    margin: 5px 0px 5px 5px;
-    border-radius: 5px 0px 0px 5px;
-}
-#bluetooth.disabled{
-    padding: 0px 3px 0px 9px;
-}
-#network {
-    padding: 0px 10px 0px 5px;
-    margin: 5px 5px 5px 0px;
-    border-radius: 0px 5px 5px 0px;
-}
-
-
-#idle_inhibitor,
-#battery,
-#power-profiles-daemon {
-    background-color: @surface_container_high;
-    color: @secondary;
-}
-#battery{
-    font-size:1.12em;
-}
-#battery {
-    padding: 0px 6px 0px 5px;
-    margin: 5px 0px 5px 0px;
-    border-radius: 0px 0px 0px 0px;
-}
 #idle_inhibitor {
-    padding: 0px 5px 0px 10px;
-    margin: 5px 0px 5px 5px;
-    border-radius: 5px 0px 0px 5px;
-    color: @tertiary;
-    font-size:1.03em;
+	background-color: @m_bg_3;
 }
-#idle_inhibitor.activated{
-    padding: 0px 6px 0px 11px;
+#idle_inhibitor:hover,
+#idle_inhibitor.deactivated {
+	color: @m_fg_alt;
 }
-#power-profiles-daemon {
-    padding: 0px 12px 0px 6px;
-    margin: 5px 5px 5px 0px;
-    border-radius: 0px 5px 5px 0px;
-    color: @tertiary;
+#clock.time {
+	padding-right: 6px;
+	background-color: @m_bg_3;
 }
 
-#power-profiles-daemon.performance {
-    color: @error;
-    font-size: 1.25em; /* 原 23px */
-    padding: 0px 14px 0px 9px;
+#clock.date {
+	padding-left: 6px;
+	background-color: @m_bg_2;
+}
+#clock.date:hover {
+	color: @m_fg_alt;
 }
 
-/* #power-profiles-daemon.balanced {
-    color: @on_tertiary;
-} */
-
-#power-profiles-daemon.power-saver {
-    color: #1aa052;
+#network {
+	padding: 0 6px 0 4px;
+	background-color: @m_bg_1;
+}
+#network:hover {
+	color: @m_fg_alt;
+}
+#bluetooth {
+	padding: 0 4px;
+	background-color: @m_bg_1;
+}
+#bluetooth:hover {
+	color: @m_fg_alt;
+}
+#custom-update {
+	padding: 0 6px 0 1px;
+	background-color: @m_bg_1;
+}
+#custom-update:hover {
+	color: @m_fg_alt;
 }
 
+/* Right modules */
 
-#battery.critical:not(.charging) {
-    background-color: @error;
-    color: @on_error;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: steps(12);
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+#mpris {
+	padding: 0 12px;
+}
+#mpris:hover,
+#mpris.paused {
+	color: @m_fg_alt;
 }
 
-#clock {
-    background-color: @surface_container_high;
-    color: @secondary;
-    padding: 0px 10px;
-    margin: 5px;
+#pulseaudio,
+#wireplumber {
+	background-color: @m_bg_1;
+}
+#pulseaudio:hover,
+#pulseaudio.output.muted,
+#pulseaudio.input.source-muted,
+#wireplumber:hover,
+#wireplumber.muted {
+	color: @m_fg_alt;
 }
 
-#custom-wlogout {
-    padding: 0px 10px 0px 10px;
-    font-size: 1.39em; /* 原 25px */
-    border-radius: 50%;
-    margin: 5px
+#backlight {
+	background-color: @m_bg_2;
 }
 
-#custom-wlogout,
-#custom-reboot,
-#custom-lockscreen,
-#custom-logout {
-    color: @tertiary;
-    padding: 0px 10px;
-    background-color: @surface_container_high;
+#battery {
+	background-color: @m_bg_3;
+}
+#battery.warning {
+	color: @m_warning;
+}
+#battery.critical {
+	color: @m_critical;
+}
+#battery.charging {
+	color: @m_charging;
 }
 
-#custom-lockscreen {
-    margin: 8px 2px 8px 0px;
-    border-radius: 0px 5px 5px 0px;
-    padding: 0px 10px 0px 5px;
+#custom-power {
+	font-size: 16px;
+	border-radius: 16px;
+	padding: 0 19px 0 16px;
+	color: @m_accent;
+}
+#custom-power:hover {
+	background-color: @m_bg_alt;
 }
 
-#custom-reboot {
-    margin: 8px 0px 8px 10px;
-    border-radius: 5px 0px 0px 5px;
-    padding: 0px 5px 0px 10px;
+/* Dividers */
+
+#custom-left,
+#custom-right,
+#custom-left_inverse,
+#custom-right_inverse {
+	font-size: 19.5px;
 }
 
-#custom-logout {
-    margin: 8px 0px 8px 0px;
-    border-radius: 0px;
+#custom-left.accent,
+#custom-right.accent {
+	color: @m_accent;
+}
+#custom-left.bg_1,
+#custom-right.bg_1 {
+	color: @m_bg_1;
+}
+#custom-left.bg_2,
+#custom-right.bg_2 {
+	background-color: @m_bg_1;
+	color: @m_bg_2;
+}
+#custom-left.bg_3,
+#custom-right.bg_3 {
+	background-color: @m_bg_2;
+	color: @m_bg_3;
 }
 
-#custom-mako {
-    background-color: @surface_container_high;
-    color: @primary;
-    padding: 0 8px;
-    margin: 5px;
+#custom-left_inverse.bg_3,
+#custom-right_inverse.bg_3 {
+	color: @m_bg_3;
 }

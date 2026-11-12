@@ -1,21 +1,43 @@
-
-# Based on Downloads/.p10k.zsh: single-line Rainbow / angled Powerline.
 "$schema" = 'https://starship.rs/config-schema.json'
+
 add_newline = false
-format = '$os[](fg:7 bg:4)$directory${custom.directory_tail}($git_branch$git_commit$git_status$git_state[](fg:2)) '
+palette = 'matugen'
+
+format = '[](fg:os_bg)$os[](fg:os_bg bg:dir_bg)$directory${custom.directory_tail}($git_branch$git_commit$git_status$git_state[](fg:git_bg)) '
 right_format = '$status$cmd_duration$jobs$python$conda$username$hostname'
+
+# 只调整这里即可更换各区域的颜色
+[palettes.matugen]
+os_bg = '#b3cad3'
+os_fg = '#1d343b'
+
+dir_bg = '#86d1ea'
+dir_fg = '#003642'
+
+git_bg = '#c1c4eb'
+git_fg = '#2a2e4d'
+
+panel_bg = '#1b2023'
+success = '#a6e3a1'
+error = '#ffb4ab'
+accent = '#86d1ea'
+cyan = '#b3cad3'
+
+duration_bg = '#b3cad3'
+duration_fg = '#1d343b'
 
 [os]
 disabled = false
 format = '[ $symbol ]($style)'
-style = 'fg:232 bg:7'
+style = 'fg:os_fg bg:os_bg'
+
 [os.symbols]
 Arch = ''
 
 [directory]
 format = '[ $path$read_only ]($style)'
-style = 'bold fg:254 bg:4'
-truncation_length = 4
+style = 'bold fg:dir_fg bg:dir_bg'
+truncation_length = 5
 truncation_symbol = '…/'
 truncate_to_repo = true
 read_only = ' '
@@ -23,51 +45,54 @@ read_only = ' '
 [status]
 disabled = false
 format = '$symbol'
-style = 'fg:1 bg:0'
-success_style = 'fg:2 bg:0'
-failure_style = 'fg:1 bg:0'
-symbol = '[](fg:0)[ ✘ $status ](fg:1 bg:0)'
-success_symbol = '[](fg:0)[ ✔ ](fg:2 bg:0)'
+style = 'fg:error bg:panel_bg'
+success_style = 'fg:success bg:panel_bg'
+failure_style = 'fg:error bg:panel_bg'
+symbol = '[](fg:panel_bg)[ ✘ $status ](fg:error bg:panel_bg)'
+success_symbol = '[](fg:panel_bg)[ ✔ ](fg:success bg:panel_bg)'
 
 [cmd_duration]
 min_time = 3000
-# Match the preceding status background to avoid a transparent notch.
-format = '[](fg:3 bg:0)[ $duration  ]($style)'
-style = 'fg:0 bg:3'
+format = '[](fg:duration_bg bg:panel_bg)[ $duration  ]($style)'
+style = 'fg:duration_fg bg:duration_bg'
 
 [jobs]
-format = '[](fg:0)[ $symbol$number ]($style)'
-style = 'fg:6 bg:0'
+format = '[](fg:panel_bg)[ $symbol$number ]($style)'
+style = 'fg:cyan bg:panel_bg'
 symbol = ' '
 number_threshold = 2
 symbol_threshold = 1
 
 [python]
-format = '([](fg:0)[ $virtualenv  ](fg:4 bg:0))'
+format = '([](fg:panel_bg)[ $virtualenv  ](fg:accent bg:panel_bg))'
+
 [conda]
-format = '[](fg:0)[ $environment  ](fg:4 bg:0)'
+format = '[](fg:panel_bg)[ $environment  ](fg:accent bg:panel_bg)'
 ignore_base = true
+
 [username]
-format = '[](fg:0)[ $user ]($style)'
-style_user = 'fg:3 bg:0'
-style_root = 'fg:1 bg:0'
+format = '[](fg:panel_bg)[ $user ]($style)'
+style_user = 'fg:accent bg:panel_bg'
+style_root = 'fg:error bg:panel_bg'
 show_always = false
+
 [hostname]
 format = '[@$hostname ]($style)'
-style = 'fg:3 bg:0'
+style = 'fg:accent bg:panel_bg'
 ssh_only = true
 
-# Native Starship Git modules. Background stays green in every state.
 [git_branch]
-format = '[](fg:4 bg:2)[  $branch ]($style)'
-style = 'fg:0 bg:2'
+format = '[](fg:dir_bg bg:git_bg)[  $branch ]($style)'
+style = 'fg:git_fg bg:git_bg'
+
 [git_commit]
 format = '[ @$hash ]($style)'
-style = 'fg:0 bg:2'
+style = 'fg:git_fg bg:git_bg'
 only_detached = true
+
 [git_status]
 format = '([ $all_status$ahead_behind ]($style))'
-style = 'bold fg:0 bg:2'
+style = 'bold fg:git_fg bg:git_bg'
 conflicted = '=${count}'
 ahead = '⇡${count}'
 behind = '⇣${count}'
@@ -78,13 +103,14 @@ modified = '!${count}'
 staged = '+${count}'
 renamed = '»${count}'
 deleted = '✘${count}'
+
 [git_state]
 format = '[ $state( $progress_current/$progress_total) ]($style)'
-style = 'bold fg:0 bg:2'
+style = 'bold fg:git_fg bg:git_bg'
 
-# Only controls the directory end cap outside Git; no Git status parsing.
 [custom.directory_tail]
 when = '! git rev-parse --git-dir >/dev/null 2>&1'
 command = "printf ''"
 shell = ['sh']
-format = '[$output](fg:4)'
+format = '[$output](fg:dir_bg)'
+

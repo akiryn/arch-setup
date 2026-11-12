@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+NIRI_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/niri"
+BINDS_FILE="$NIRI_DIR/binds.kdl"
+
+# 菜单尺寸，以字符为单位。
+MENU_WIDTH=80
+MENU_HEIGHT=20
+
+if [[ ! -r "$BINDS_FILE" ]]; then
+    printf '无法读取快捷键配置：%s\n' "$BINDS_FILE" >&2
+    exit 1
+fi
+
+# 提取单行配置中的快捷键和标题，跳过整行注释。
+MENU_ITEMS=$(
+    sed -nE '
+        /^[[:blank:]]*\/\//d
+        s/^[[:blank:]]*([^[:blank:]]+)[[:blank:]]+.*hotkey-overlay-title="([^"]+)".*/\1 | \2/p
+    ' "$BINDS_FILE"
+)
+
+if [[ -z "$MENU_ITEMS" ]]; then
+    printf '%s\n' '没有找到带标题的快捷键。' >&2
+    exit 1
+fi
+
+# 安装了 column 时对齐两列。
+if command -v column >/dev/null 2>&1; then
+    MENU_ITEMS=$(printf '%s\n' "$MENU_ITEMS" | column -t -s '|')
+fi
+
+if command -v kitty >/dev/null 2>&1 &&
+   command -v fzf >/dev/null 2>&1; then
+    kitty \
+        --class "niri-hotkey-menu" \
+        --title "Shortcut Menu" \
+        -o remember_window_size=no \
+        -o "initial_window_width=${MENU_WIDTH}c" \
+        -o "initial_window_height=${MENU_HEIGHT}c" \
+        bash -c '
+            printf "%s\n" "$1" |
+                fzf \
+                    --reverse \
+                    --prompt="󰌌 Shortcut key: " \
+                    --info=hidden \
+                    --border=none >/dev/null
+        ' niri-hotkey-menu "$MENU_ITEMS"
+
+elif command -v fuzzel >/dev/null 2>&1; then
+    printf '%s\n' "$MENU_ITEMS" |
+        fuzzel --dmenu -i \
+            -p "󰌌 Shortcut key: " \
+            -w "$MENU_WIDTH" >/dev/null
+
+else
+    printf '%s\n' '需要安装 kitty 和 fzf，或安装 fuzzel。' >&2
+    exit 1
+fi

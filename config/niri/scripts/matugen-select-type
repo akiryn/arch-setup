@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+
+# 配色菜单。缓存路径需与 matugen-update 保持一致。
+CACHE_DIR="$HOME/.cache/matugen-strategy"
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd) || exit 1
+UPDATE_SCRIPT="$SCRIPT_DIR/matugen-update"
+
+report_error() {
+    printf '%s\n' "$1" >&2
+    if command -v notify-send >/dev/null 2>&1; then
+        notify-send -u critical "Matugen" "$1"
+    fi
+}
+
+if ! command -v fuzzel >/dev/null 2>&1; then
+    report_error 'Matugen 菜单需要 fuzzel。'
+    exit 1
+fi
+
+if [[ ! -x "$UPDATE_SCRIPT" ]]; then
+    report_error "更新脚本不存在或无法执行： $UPDATE_SCRIPT"
+    exit 1
+fi
+
+mkdir -p -- "$CACHE_DIR" || exit 1
+
+# 同时只允许一个菜单修改设置并启动更新。
+exec 9>"$CACHE_DIR/menu.lock" || exit 1
+flock -n 9 || exit 0
+
+CURRENT_MODE=dark
+CURRENT_INDEX_MODE=0
+if [[ -r "$CACHE_DIR/mode" ]]; then
+    read -r CURRENT_MODE < "$CACHE_DIR/mode"
+fi
+if [[ -r "$CACHE_DIR/index_mode" ]]; then
+    read -r CURRENT_INDEX_MODE < "$CACHE_DIR/index_mode"
+fi
+
+NEXT_MODE=light
+NEXT_INDEX_MODE=random
+[[ "$CURRENT_MODE" == light ]] && NEXT_MODE=dark
+[[ "$CURRENT_INDEX_MODE" == random ]] && NEXT_INDEX_MODE=0
+
+# 通过菜单索引查找所选配色策略。
+SCHEMES=(
+    scheme-tonal-spot
+    scheme-vibrant
+    scheme-fruit-salad
+    scheme-fidelity
+    scheme-expressive
+    scheme-neutral
+    scheme-monochrome
+    scheme-rainbow
+    scheme-content
+)
+
+PROMPT='Matugen settings > '
+MODE_OPTION='Switch to light mode'
+INDEX_OPTION='Switch to random/cycling source color'
+[[ "$NEXT_MODE" == dark ]] && MODE_OPTION='Switch to dark mode'
+[[ "$NEXT_INDEX_MODE" == 0 ]] && INDEX_OPTION='Switch to first source color'
+
+OPTIONS=(
+    "$MODE_OPTION"
+    "$INDEX_OPTION"
+    'Regenerate'
+    '默认点调 (scheme-tonal-spot)'
+    '鲜艳模式 (scheme-vibrant)'
+    '水果沙拉 (scheme-fruit-salad)'
+    '忠实还原 (scheme-fidelity)'
+    '表现增强 (scheme-expressive)'
+    '中性柔和 (scheme-neutral)'
+    '单色黑白 (scheme-monochrome)'
+    '彩虹混色 (scheme-rainbow)'
+    '内容优先 (scheme-content)'
+)
+
+# 取消菜单时退出，不写入配色设置。
+if ! SELECTED_INDEX=$(
+    printf '%s\n' "${OPTIONS[@]}" |
+        fuzzel --dmenu --index --prompt="$PROMPT" --lines=12
+); then
+    exit 0
+fi
+
+# 只接受已有菜单行的索引。
+case "$SELECTED_INDEX" in
+    0) SETTING_FILE="$CACHE_DIR/mode"; VALUE="$NEXT_MODE" ;;
+    1) SETTING_FILE="$CACHE_DIR/index_mode"; VALUE="$NEXT_INDEX_MODE" ;;
+    2) SETTING_FILE='' ;;
+    3|4|5|6|7|8|9|10|11)
+        SETTING_FILE="$CACHE_DIR/type"
+        VALUE="${SCHEMES[SELECTED_INDEX - 3]}"
+        ;;
+    *) exit 0 ;;
+esac
+
+# 原子替换设置文件，避免更新程序读取到写入一半的内容。
+if [[ -n "$SETTING_FILE" ]]; then
+    TEMP_FILE=$(mktemp "$CACHE_DIR/.setting.XXXXXX") || exit 1
+    trap 'rm -f -- "$TEMP_FILE"' EXIT
+    if ! printf '%s\n' "$VALUE" > "$TEMP_FILE" ||
+       ! mv -- "$TEMP_FILE" "$SETTING_FILE"; then
+        report_error '无法保存 Matugen 设置。'
+        exit 1
+    fi
+fi
+
+if ! "$UPDATE_SCRIPT" -f 9>&-; then
+    report_error 'Matugen 更新失败。已保存的设置将在下次更新时使用。'
+    exit 1
+fi
