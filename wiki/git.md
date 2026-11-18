@@ -116,3 +116,11 @@ git config --global core.quotepath false
 ```
 
 
+## 修改远端仓库名后更换本地绑定
+```bash
+git remote set-url origin git@github.com:你的用户名/新仓库名.git
+git remote -v
+git ls-remote origin
+```
+`git remote -v` 查看当前仓库绑定的远端仓库
+`git ls-remote origin` 可以验证新地址是否能访问
