@@ -44,6 +44,8 @@ m+52个字母 做标签
 :delmarks a-zA-Z
 :delmarks! 删除当前 buffer 的本地标记（a-z 等），但不会把 A-Z 这种全局文件标记全部删掉
 
+Shift+](即})可以跳过一段
+Shift+[({)
 
 
 ```
@@ -83,7 +85,7 @@ g$ 当前行尾
 cw 修改从当前位置到这个单词末尾的内容，效果和ce一样。光标在空格上时，通常改掉到下一个单词前的空白。
 ce 从光标改到e跳到的单词末尾，包含末尾那个字符。
 cb 从b跳到的单词开头改到光标前，保留光标所在的字符。
-cc 修改整行
+cc 修改整行 Shift+s也是修改整行
 C  从当前位置修改到行尾(等价于c$)
 
 ciw 修改当前整个单词iw = inner word
@@ -92,6 +94,8 @@ ci" 修改引号里面的内容,不要求你的光标正好位于字符串开头
 cit 修改 HTML/XML 标签内部
 
 c可以全部替换为d
+
+% 光标在成对出现的内容之间跳转，例如"xxx"，[dsa], 'sadf'
 ```
 
 ## 复制粘贴
@@ -113,4 +117,28 @@ vip 可以快速选择一个段落。对普通文本来说，空行通常分隔�
 
 
 ```
+
+
+# buffer,window,tab
+ctrl+w c 关闭window
+ctrl+w o 关闭除当前window外的所有window
+
+帮助文档属于特殊的 buffer，不会被 `:buffers` 命令显示出来，我们可以使用 `:buffers!` 查看。
+
+使用 `vsplit` 命令进行左右分屏，也可以用 `split` 进行上下分屏，还可以用这两个命令接上文件名直接在新的 window 打开文件
+
+可以使用 `:tabnew` 创建新的 tab，使用 `:tabclose` 关闭 tab，使用 `:tabs` 列出所有 tab，使用 `:tabnext` 和 `:tabprevious` 前后切换 tab。
+
+# 插件
+## nvim-autopairs
+
+## nvim-surround
+yiw -> ysiw -> ysiw"    ysiw'    ysiw{    ysiw(
+ysiwt    ys3e"
+ys是operator后面接合理的motion即可快捷选中所需
+
+ds" 删除光标所在位置的，包裹那部分内容的引号
+cs{( 将大括号换为小括号
+
+在visual mode可以通过`shift + s`对选中的内容操作，S"
 
